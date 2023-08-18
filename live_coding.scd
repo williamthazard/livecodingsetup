@@ -10,20 +10,20 @@ s.reboot; //reboot server with our options in place
 
 (//some useful arrays
 ~timer = LinkClock.new(120/60).latency_(Server.default.latency).quantum_(0); //set up clock (put desired bpm where the current bpm is)
-~sound = Array.fill(16, {0}); //we'll store our synthdefs here
-~note = Array.fill(16, {0}); //we'll store our note sequences here
-~dur = Array.fill(16, {0}); //we'll store our timing sequences here
-~modnums = Array.fill(16, {0});
-~modenos = Array.fill(16, {0});
-~panLFOs = Array.fill(128, {0});
-~cutoffLFOs = Array.fill(128, {0});
-~resonanceLFOs = Array.fill(128, {0});
-~indexLFOs = Array.fill(128, {0});
+~sound = Array.fill(64, {0}); //we'll store our synthdefs here
+~note = Array.fill(64, {0}); //we'll store our note sequences here
+~dur = Array.fill(64, {0}); //we'll store our timing sequences here
+~modnums = Array.fill(64, {0});
+~modenos = Array.fill(64, {0});
+~panLFOs = Array.fill(64, {0});
+~cutoffLFOs = Array.fill(64, {0});
+~resonanceLFOs = Array.fill(64, {0});
+~indexLFOs = Array.fill(64, {0});
 ~voices = [\1, \2, \3, \4, \5, \6, \7, \8];
-~voiceManager = Array.fill(16, {PatternProxy(Pseq(~voices, inf)).asStream});
-~bufs = Array.fill(16,{0});
-~rates = Array.fill(16,{0});
-~amps = Array.fill(16, {0});
+~voiceManager = Array.fill(64, {PatternProxy(Pseq(~voices, inf)).asStream});
+~bufs = Array.fill(64,{0});
+~rates = Array.fill(64,{0});
+~amps = Array.fill(64, {0});
 
 //LFOs
 64.do({
@@ -124,7 +124,7 @@ d.add(\zs ->
 	~sound[0].setParam((i+1).asSymbol,\resonance,~resonanceLFOs[i]);
 });
 ~note.put(0, PatternProxy(Pseq([25, 41, 51, 61], inf)).asStream);
-~dur.put(0, PatternProxy(Pseq([0.5, 0.25, 0.25, 0.25, 0.25, 1.5, 1.5, 1],inf)).asStream);
+~dur.put(0, PatternProxy(Pseq([0.5, 0.25, 0.25, 0.25, 0.25, 1.5],inf)).asStream);
 ~modnums.put(0, PatternProxy(Pseq([1,2,1,2],inf)).asStream);
 ~modenos.put(0, PatternProxy(Pseq([1,2,4,1],inf)).asStream);
 Tdef(\0, {
@@ -283,7 +283,14 @@ Tdef(\4, {
 Tdef(\4).play(~timer, quant:4);
 Tdef(\4).stop;
 
-(
+(//play everything
+5.do({
+	arg i;
+	Tdef(i.asSymbol).play(~timer, quant:4);
+})
+)
+
+(//stop everything
 5.do({
 	arg i;
 	Tdef(i.asSymbol).stop;
