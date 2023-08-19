@@ -124,7 +124,7 @@ d.add(\zs ->
 	~sound[0].setParam((i+1).asSymbol,\resonance,~resonanceLFOs[i]);
 });
 ~note.put(0, PatternProxy(Pseq([25, 41, 51, 61], inf)).asStream);
-~dur.put(0, PatternProxy(Pseq([0.5, 0.25, 0.25, 0.25, 0.25, 1.5],inf)).asStream);
+~dur.put(0, PatternProxy(Pseq([0.5, 0.25, 0.25, 0.25, 0.25, 0.5, 1, 1],inf)).asStream);
 ~modnums.put(0, PatternProxy(Pseq([1,2,1,2],inf)).asStream);
 ~modenos.put(0, PatternProxy(Pseq([1,2,4,1],inf)).asStream);
 Tdef(\0, {
@@ -190,7 +190,7 @@ Tdef(\1).stop;
 
 (
 ~sound.put(2, OneShot.new);
-~dur.put(2, PatternProxy(Pseq([2],inf)).asStream);
+~dur.put(2, PatternProxy(Pseq([1],inf)).asStream);
 ~bufs.put(2, PatternProxy(Pseq([d[\zk][1], d[\zs][0]], inf)).asStream);
 ~rates.put(2, PatternProxy(Pseq([0.5, 0.5, 1], inf)).asStream);
 ~amps.put(2, PatternProxy(Pseq([1], inf)).asStream);
