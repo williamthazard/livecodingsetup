@@ -261,7 +261,7 @@ Tdef(\3).stop;
 ~modnums.put(4, PatternProxy(Pseq([1,1,2],inf)).clock_(~timer).quant_(4).asStream);
 ~modenos.put(4, PatternProxy(Pseq([1,2,2,1],inf)).clock_(~timer).quant_(4).asStream);
 Tdef(\4, {
-	var delta, voice;
+	var delta;
 	loop {
 		delta = ~dur[4].next;
 		~sound[4].setParam(\1,\attack,0);
@@ -280,7 +280,7 @@ Tdef(\4, {
 ~note.put(5, PatternProxy(Pseq([25, 41, 51, 61], inf)).clock_(~timer).quant_(4).asStream);
 ~dur.put(5, PatternProxy(Pseq([0.5],inf)).clock_(~timer).quant_(4).asStream);
 Tdef(\5, {
-	var delta, voice;
+	var delta;
 	loop {
 		delta = ~dur[5].next;
 		~sound[4].setParam(\1,\freq,~note[5].next.midicps);
