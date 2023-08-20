@@ -123,10 +123,10 @@ d.add(\zs ->
 	~sound[0].setParam((i+1).asSymbol,\cutoff,~cutoffLFOs[i]);
 	~sound[0].setParam((i+1).asSymbol,\resonance,~resonanceLFOs[i]);
 });
-~note.put(0, PatternProxy(Pseq([25, 41, 51, 61], inf)).asStream);
-~dur.put(0, PatternProxy(Pseq([0.5, 0.25, 0.25, 0.25, 0.25, 0.5, 1, 1],inf)).asStream);
-~modnums.put(0, PatternProxy(Pseq([1,2,1,2],inf)).asStream);
-~modenos.put(0, PatternProxy(Pseq([1,2,4,1],inf)).asStream);
+~note.put(0, PatternProxy(Pseq([25, 32, 41, 51, 61], inf)).clock_(~timer).quant_(4).asStream);
+~dur.put(0, PatternProxy(Pseq([0.5, 0.25, 0.25, 0.25, 0.25, 0.5, 1],inf)).clock_(~timer).quant_(4).asStream);
+~modnums.put(0, PatternProxy(Pseq([1,2,1,2],inf)).clock_(~timer).quant_(4).asStream);
+~modenos.put(0, PatternProxy(Pseq([1,2,4,1],inf)).clock_(~timer).quant_(4).asStream);
 Tdef(\0, {
 	var delta, voice;
 	loop {
@@ -141,7 +141,7 @@ Tdef(\0, {
 		~sound[0].setParam(voice,\modeno,~modenos[0].next);
 		~sound[0].setParam(voice,\freq_slew,[0,0.1].choose);
 		~sound[0].setParam(voice,\cutoff_env,[0,1].choose);
-		~sound[0].trigger(voice,(~note[0].next+36).midicps);
+		~sound[0].trigger(voice,(~note[0].next+24).midicps);
 		delta.yield;
 	}
 }).clock_(~timer).quant_(4)
@@ -161,17 +161,17 @@ Tdef(\0).stop;
 	~sound[1].setParam((i+1).asSymbol,\cutoff,~cutoffLFOs[i+8]);
 	~sound[1].setParam((i+1).asSymbol,\resonance,~resonanceLFOs[i+8]);
 });
-~note.put(1, PatternProxy(Pseq([25, 32, 25, 41], inf)).asStream);
-~dur.put(1, PatternProxy(Pseq([2, 2, 4],inf)).asStream);
-~modnums.put(1, PatternProxy(Pseq([1,2,1,2],inf)).asStream);
-~modenos.put(1, PatternProxy(Pseq([4,2,4,1],inf)).asStream);
+~note.put(1, PatternProxy(Pseq([25, 32, 25, 41], inf)).clock_(~timer).quant_(4).asStream);
+~dur.put(1, PatternProxy(Pseq([2],inf)).clock_(~timer).quant_(4).asStream);
+~modnums.put(1, PatternProxy(Pseq([1,2,1],inf)).clock_(~timer).quant_(4).asStream);
+~modenos.put(1, PatternProxy(Pseq([4,2,4,1],inf)).clock_(~timer).quant_(4).asStream);
 Tdef(\1, {
 	var delta, voice;
 	loop {
 		delta = ~dur[1].next;
 		voice = ~voiceManager[1].next;
-		~sound[1].setParam(voice,\attack,2);
-		~sound[1].setParam(voice,\release,2);
+		~sound[1].setParam(voice,\attack,1);
+		~sound[1].setParam(voice,\release,1);
 		~sound[1].setParam(voice,\amp,0.5);
 		~sound[1].setParam(voice,\pan_slew,0.1);
 		~sound[1].setParam(voice,\index,1);
@@ -179,7 +179,7 @@ Tdef(\1, {
 		~sound[1].setParam(voice,\modeno,~modenos[1].next);
 		~sound[1].setParam(voice,\freq_slew,[0,0.1].choose);
 		~sound[1].setParam(voice,\cutoff_env,[0,1].choose);
-		~sound[1].trigger(voice,(~note[1].next+36).midicps);
+		~sound[1].trigger(voice,(~note[1].next+24).midicps);
 		delta.yield;
 	}
 }).clock_(~timer).quant_(4)
@@ -190,10 +190,10 @@ Tdef(\1).stop;
 
 (
 ~sound.put(2, OneShot.new);
-~dur.put(2, PatternProxy(Pseq([1],inf)).asStream);
-~bufs.put(2, PatternProxy(Pseq([d[\zk][1], d[\zs][0]], inf)).asStream);
-~rates.put(2, PatternProxy(Pseq([0.5, 0.5, 1], inf)).asStream);
-~amps.put(2, PatternProxy(Pseq([1], inf)).asStream);
+~dur.put(2, PatternProxy(Pseq([2],inf)).clock_(~timer).quant_(4).asStream);
+~bufs.put(2, PatternProxy(Pseq([d[\zk][1], d[\zs][0]], inf)).clock_(~timer).quant_(4).asStream);
+~rates.put(2, PatternProxy(Pseq([0.5, 0.5, 1], inf)).clock_(~timer).quant_(4).asStream);
+~amps.put(2, PatternProxy(Pseq([1], inf)).clock_(~timer).quant_(4).asStream);
 8.do({
 	arg i;
 	~sound[2].setParam((i+1).asSymbol,\cutoff,~cutoffLFOs[i+16]);
@@ -218,10 +218,10 @@ Tdef(\2).stop;
 
 (
 ~sound.put(3, OneShot.new);
-~dur.put(3, PatternProxy(Pseq([0.25],inf)).asStream);
-~bufs.put(3, PatternProxy(Prand(d[\zp], inf)).asStream);
-~rates.put(3, PatternProxy(Pseq([1], inf)).asStream);
-~amps.put(3, PatternProxy(Pseq([0.95, Pexprand(0.5,0.75,0.7)], inf)).asStream);
+~dur.put(3, PatternProxy(Pseq([0.25],inf)).clock_(~timer).quant_(4).asStream);
+~bufs.put(3, PatternProxy(Prand(d[\zp], inf)).clock_(~timer).quant_(4).asStream);
+~rates.put(3, PatternProxy(Pseq([1], inf)).clock_(~timer).quant_(4).asStream);
+~amps.put(3, PatternProxy(Pseq([0.95, Pexprand(0.5,0.75,0.7)], inf)).clock_(~timer).quant_(4).asStream);
 8.do({
 	arg i;
 	~sound[3].setParam((i+1).asSymbol,\pan,~panLFOs[i+16]);
@@ -256,42 +256,53 @@ Tdef(\3).stop;
 	~sound[4].setParam((i+1).asSymbol,\cutoff,7000);
 	~sound[4].setParam((i+1).asSymbol,\resonance,2);
 });
-~note.put(4, PatternProxy(Pseq([25, 41, 51, 61], inf)).asStream);
-~dur.put(4, PatternProxy(Pseq([1.5],inf)).asStream);
-~modnums.put(4, PatternProxy(Pseq([1,1,2],inf)).asStream);
-~modenos.put(4, PatternProxy(Pseq([1,2,2,1],inf)).asStream);
+~note.put(4, PatternProxy(Pseq([25, 41, 51, 61], inf)).clock_(~timer).quant_(4).asStream);
+~dur.put(4, PatternProxy(Pseq([4],inf)).clock_(~timer).quant_(4).asStream);
+~modnums.put(4, PatternProxy(Pseq([1,1,2],inf)).clock_(~timer).quant_(4).asStream);
+~modenos.put(4, PatternProxy(Pseq([1,2,2,1],inf)).clock_(~timer).quant_(4).asStream);
 Tdef(\4, {
 	var delta, voice;
 	loop {
 		delta = ~dur[4].next;
-		voice = ~voiceManager[4].next;
-		~sound[4].setParam(voice,\attack,1);
-		~sound[4].setParam(voice,\release,2);
-		~sound[4].setParam(voice,\amp,0.5);
-		~sound[4].setParam(voice,\pan_slew,0.1);
-		~sound[4].setParam(voice,\index,1);
-		~sound[4].setParam(voice,\modnum,~modnums[4].next);
-		~sound[4].setParam(voice,\modeno,~modenos[4].next);
-		~sound[4].setParam(voice,\freq_slew,[0,0.1].choose);
-		~sound[4].setParam(voice,\cutoff_env,1);
-		~sound[4].trigger(voice,(~note[4].next+36).midicps);
+		~sound[4].setParam(\1,\attack,0);
+		~sound[4].setParam(\1,\release,4);
+		~sound[4].setParam(\1,\amp,1);
+		~sound[4].setParam(\1,\pan_slew,0.1);
+		~sound[4].setParam(\1,\index,1);
+		~sound[4].setParam(\1,\modnum,~modnums[4].next);
+		~sound[4].setParam(\1,\modeno,~modenos[4].next);
+		~sound[4].setParam(\1,\freq_slew,0.1);
+		~sound[4].setParam(\1,\cutoff_env,1);
+		~sound[4].trigger(\1,~note[4].next.midicps);
+		delta.yield;
+	};
+}).clock_(~timer).quant_(4);
+~note.put(5, PatternProxy(Pseq([25, 41, 51, 61], inf)).clock_(~timer).quant_(4).asStream);
+~dur.put(5, PatternProxy(Pseq([0.5],inf)).clock_(~timer).quant_(4).asStream);
+Tdef(\5, {
+	var delta, voice;
+	loop {
+		delta = ~dur[5].next;
+		~sound[4].setParam(\1,\freq,~note[5].next.midicps);
 		delta.yield;
 	}
 }).clock_(~timer).quant_(4)
 )
 
 Tdef(\4).play(~timer, quant:4);
+Tdef(\5).play(~timer, quant:4);
 Tdef(\4).stop;
+Tdef(\5).stop;
 
 (//play everything
-5.do({
+6.do({
 	arg i;
 	Tdef(i.asSymbol).play(~timer, quant:4);
 })
 )
 
 (//stop everything
-5.do({
+6.do({
 	arg i;
 	Tdef(i.asSymbol).stop;
 })
